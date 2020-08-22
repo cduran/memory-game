@@ -84,6 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
       cards[optionOneId].setAttribute('src', 'images/blank.png')
       cards[optionTwoId].setAttribute('src', 'images/blank.png')
       alert('Sorry, try again')
+        cards[optionOneId].addEventListener('click', flipCard)
+        cards[optionTwoId].addEventListener('click', flipCard)
     }
     cardsChosen = []
     cardsChosenId = []
@@ -95,14 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //flip your card
   function flipCard() {
-    var cardId = this.getAttribute('data-id')
-    cardsChosen.push(cardArray[cardId].name)
-    cardsChosenId.push(cardId)
-    this.setAttribute('src', cardArray[cardId].img)
-    if (cardsChosen.length ===2) {
+  // Avoid double clicking same card
+  this.removeEventListener('click', flipCard)
+
+  var cardId = this.getAttribute('data-id')
+  cardsChosen.push(gridCardArray[cardId].name)
+  cardsChosenId.push(cardId)
+  this.setAttribute('src', gridCardArray[cardId].img)
+  if (cardsChosen.length === 2) {
       setTimeout(checkForMatch, 500)
-    }
+  }
   }
 
   createBoard()
 })
+
